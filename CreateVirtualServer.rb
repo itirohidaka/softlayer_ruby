@@ -1,22 +1,37 @@
 #!/usr/bin/env ruby
-#=======================================================================
-# File: puppetagent_v1.sh
-# Title: Puppet Agent Installation Script for Ubuntu Server 14.04
+#==============================================================================
+# File: CreateVirtualServer.rb
+# Title: Create a Virtual Server on IBM Cloud (SoftLayer)
+# Description: Ruby Script to create a Virtual Server using a template object
+#              postInstallScript, using a specific private and public vlan,
+#              and inserting a tag.
 # Author: Gerson Itiro Hidaka
-# Date: 01/06/2015
-#=======================================================================
+# Date: 07/06/2015 (dd/mm/yyy)
+#==============================================================================
 # References
 # http://sldn.softlayer.com/reference/services/SoftLayer_Virtual_Guest/createObject
-#=======================================================================
+#==============================================================================
+# Disclaimer
+# Be aware that all scripts are run at your own risk and while every script has
+# been written with the intention of minimising the potential for unintended
+# consequences, the owners, hosting providers and contributers cannot be held
+# responsible for any misuse or script problems.
+#==============================================================================
 
 require 'rubygems'
 require 'softlayer_api'
 require 'json'
 
+#Substitute <username> with you SoftLayer's username
 $SL_API_USERNAME = "<username>"         # enter your username here
+#Substitute <apikey> with you SoftLayer's API Key string
 $SL_API_KEY = "<apikey>"
 virtual_guest_service = SoftLayer::Service.new("SoftLayer_Virtual_Guest")
 
+#Substitute <hostname> with the virtual server desired hostname
+#Substitute <domain> with virtual server domain
+#Substitute <vlanid1> with Public Vlan ID
+#Substitute <vlanid2> with Private Vlan ID
 begin
   templateObject = {
     'complexType' => "SoftLayer_Virtual_Guest",
@@ -37,12 +52,12 @@ begin
     ],
     'primaryNetworkComponent' => {
         'networkVlan' => {
-            'id' => <vlanid>
+            'id' => <vlanid1>
         }
     },
     'primaryBackendNetworkComponent' => {
         'networkVlan' => {
-            'id' => <vlanid>
+            'id' => <vlanid2>
         }
     },
   }
